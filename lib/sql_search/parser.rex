@@ -6,8 +6,8 @@ option
 macro
   BLANK  [\ \t]+
   STRING [^']+
-  INTNUM \d+
   APPROXNUM {INTNUM}\.{INTNUM}
+  INTNUM \d+
   COMPARISON (<>|=|[<][=]|[<]|[>][=]|[>])
 
   NAME [A-z_]([A-z0-9_]*)
@@ -31,8 +31,8 @@ macro
 
 rule
   {BLANK}
-  {INTNUM} { [:INTNUM, text.to_i] }
   {APPROXNUM} { [:APPROXNUM, text.to_f] }
+  {INTNUM} { [:INTNUM, text.to_i] }
   '{TIME}' { [:TIME, DateTime.iso8601(text[1...-1])] }
   '{STRING}' { [:STRING, text[1...-1]] }
   IS { [:IS, text] }

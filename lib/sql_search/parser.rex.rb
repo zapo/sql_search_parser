@@ -60,11 +60,11 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/[ \t]+/i))
         ;
 
-      when (text = @ss.scan(/\d+/i))
-         action { [:INTNUM, text.to_i] }
-
       when (text = @ss.scan(/\d+\.\d+/i))
          action { [:APPROXNUM, text.to_f] }
+
+      when (text = @ss.scan(/\d+/i))
+         action { [:INTNUM, text.to_i] }
 
       when (text = @ss.scan(/'\d+-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)'/i))
          action { [:TIME, DateTime.iso8601(text[1...-1])] }

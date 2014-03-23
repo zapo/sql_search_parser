@@ -199,8 +199,8 @@ racc_token_table = {
   "*" => 17,
   "/" => 18,
   :STRING => 19,
-  :INTNUM => 20,
-  :APPROXNUM => 21,
+  :APPROXNUM => 20,
+  :INTNUM => 21,
   :TIME => 22,
   :NAME => 23,
   :DOT => 24 }
@@ -246,8 +246,8 @@ Racc_token_to_s_table = [
   "\"*\"",
   "\"/\"",
   "STRING",
-  "INTNUM",
   "APPROXNUM",
+  "INTNUM",
   "TIME",
   "NAME",
   "DOT",
@@ -407,14 +407,14 @@ module_eval(<<'.,.,', 'parser.y', 74)
 
 module_eval(<<'.,.,', 'parser.y', 75)
   def _reduce_35(val, _values, result)
-     result = Atoms::Literal.new(:value => val[0], :type => :int) 
+     result = Atoms::Literal.new(:value => val[0], :type => :float) 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'parser.y', 76)
   def _reduce_36(val, _values, result)
-     result = Atoms::Literal.new(:value => val[0], :type => :float) 
+     result = Atoms::Literal.new(:value => val[0], :type => :int) 
     result
   end
 .,.,

@@ -73,8 +73,8 @@ rule
 
   literal:
     STRING { result = Atoms::Literal.new(:value => val[0], :type => :string) }
-    |INTNUM { result = Atoms::Literal.new(:value => val[0], :type => :int) }
     |APPROXNUM { result = Atoms::Literal.new(:value => val[0], :type => :float) }
+    |INTNUM { result = Atoms::Literal.new(:value => val[0], :type => :int) }
     |TIME { result = Atoms::Literal.new(:value => val[0], :type => :datetime) }
     ;
 

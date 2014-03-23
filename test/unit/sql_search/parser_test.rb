@@ -30,6 +30,20 @@ module SQLSearch
         SQLSearch::Parser.new.parse("b not in (1,2,3)").to_s
     end
 
+    def test_atom_parse
+      assert_equal Date.iso8601('2013-01-01T00:00:00Z'),
+        SQLSearch::Parser.new.parse("b = '2013-01-01T00:00:00Z'").right.value
+
+      assert_equal 'blah',
+        SQLSearch::Parser.new.parse("b = 'blah'").right.value
+
+      assert_equal 1,
+        SQLSearch::Parser.new.parse("b = 1").right.value
+
+      assert_equal 1.1,
+        SQLSearch::Parser.new.parse("b = 1.1").right.value
+    end
+
     def test_conditions
       assert_equal "(`b` = 3) AND (`c` = 1)",
         SQLSearch::Parser.new.parse("b = 3 and c = 1").to_s

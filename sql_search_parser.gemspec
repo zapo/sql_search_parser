@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.description = "Simple SQL search conditions parser (where clause)"
   s.authors     = ["Antoine Niek"]
   s.email       = 'antoineniek@gmail.com'
-  s.files       = %w(LICENSE README.markdown Rakefile) + Dir.glob("lib/**/*")
+  s.files       = %w(LICENSE README.md Rakefile) + Dir.glob("lib/**/*")
   s.homepage    = 'http://rubygems.org/gems/sql_search_parser'
   s.license     = 'MIT'
 
