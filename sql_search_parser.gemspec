@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Antoine Niek"]
   s.email       = 'antoineniek@gmail.com'
   s.files       = %w(LICENSE README.md Rakefile) + Dir.glob("lib/**/*")
-  s.homepage    = 'http://rubygems.org/gems/sql_search_parser'
+  s.homepage    = 'https://github.com/zapo/sql_search_parser'
   s.license     = 'MIT'
 
   s.add_development_dependency "minitest"
