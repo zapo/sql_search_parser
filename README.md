@@ -33,3 +33,8 @@ Build & install Gem locally
 -----
     rake package
 
+Run the tests
+-----
+    rake
+or
+    rake test
