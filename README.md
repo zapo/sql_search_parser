@@ -19,3 +19,6 @@ Usage
 
     SQLSearch::Parser.new.parse("b IN(1,2,3)").right.values.map(&:value)
     => [1, 2, 3]
+
+    SQLSearch::Parser.new.parse("b + 1 > c").left
+    => #<SQLSearch::Atoms::Scalar:0x000000016ceef8 @left=#<SQLSearch::Atoms::Column:0x000000016cf308 @name="b", @table=nil, @space=nil>, @right=#<SQLSearch::Atoms::Literal:0x000000016cf100 @value=1, @type=:int>, @operation=:+>
