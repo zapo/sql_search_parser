@@ -49,6 +49,10 @@ rule
   \) { [:RPAREN, text] }
   \. { [:DOT, text] }
   \, { [:COMMA, text] }
+  \+ { [:ADD, text] }
+  \- { [:SUBTRACT, text] }
+  \/ { [:DIVIDE, text] }
+  \* { [:MULTIPLY, text] }
 inner
 
   def tokenize(code)

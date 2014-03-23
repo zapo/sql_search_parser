@@ -67,6 +67,31 @@ module SQLSearch
       end
     end
 
+    class Scalar
+      attr_reader :left, :right, :operation
+      def initialize options
+        @left = options[:left]
+        @right = options[:right]
+        @operation = options[:operation]
+      end
+
+      def to_s
+        "#{left} #{operation} #{right}"
+      end
+    end
+
+    class UnaryScalar < Scalar
+      attr_reader :value, :operation
+      def initialize options
+        @value = options[:value]
+        @operation = options[:operation]
+      end
+
+      def to_s
+        "#{operation} #{value}"
+      end
+    end
+
     class Literal
       attr_reader :value, :type
       def initialize options

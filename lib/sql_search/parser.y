@@ -56,12 +56,12 @@ rule
     /* scalar expressions */
 
   scalar_exp:
-    scalar_exp '+' scalar_exp
-    |scalar_exp '-' scalar_exp
-    |scalar_exp '*' scalar_exp
-    |scalar_exp '/' scalar_exp
-    |'+' scalar_exp
-    |'-' scalar_exp
+    scalar_exp ADD scalar_exp { result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'+')}
+    |scalar_exp SUBTRACT scalar_exp { result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'-')}
+    |scalar_exp MULTIPLY scalar_exp { result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'*')}
+    |scalar_exp DIVIDE scalar_exp { result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'/')}
+    |ADD scalar_exp { result = Atoms::UnaryScalar.new(:value => val[1], :operation => :'+')}
+    |SUBTRACT scalar_exp { result = Atoms::UnaryScalar.new(:value => val[1], :operation => :'-')}
     |atom
     |column_ref
     |LPAREN scalar_exp RPAREN

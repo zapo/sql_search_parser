@@ -156,12 +156,12 @@ racc_reduce_table = [
   5, 32, :_reduce_21,
   1, 37, :_reduce_22,
   3, 37, :_reduce_23,
-  3, 33, :_reduce_none,
-  3, 33, :_reduce_none,
-  3, 33, :_reduce_none,
-  3, 33, :_reduce_none,
-  2, 33, :_reduce_none,
-  2, 33, :_reduce_none,
+  3, 33, :_reduce_24,
+  3, 33, :_reduce_25,
+  3, 33, :_reduce_26,
+  3, 33, :_reduce_27,
+  2, 33, :_reduce_28,
+  2, 33, :_reduce_29,
   1, 33, :_reduce_none,
   1, 33, :_reduce_none,
   3, 33, :_reduce_none,
@@ -194,10 +194,10 @@ racc_token_table = {
   :NULL => 12,
   :IN => 13,
   :COMMA => 14,
-  "+" => 15,
-  "-" => 16,
-  "*" => 17,
-  "/" => 18,
+  :ADD => 15,
+  :SUBTRACT => 16,
+  :MULTIPLY => 17,
+  :DIVIDE => 18,
   :STRING => 19,
   :APPROXNUM => 20,
   :INTNUM => 21,
@@ -241,10 +241,10 @@ Racc_token_to_s_table = [
   "NULL",
   "IN",
   "COMMA",
-  "\"+\"",
-  "\"-\"",
-  "\"*\"",
-  "\"/\"",
+  "ADD",
+  "SUBTRACT",
+  "MULTIPLY",
+  "DIVIDE",
   "STRING",
   "APPROXNUM",
   "INTNUM",
@@ -378,17 +378,47 @@ module_eval(<<'.,.,', 'parser.y', 52)
   end
 .,.,
 
-# reduce 24 omitted
+module_eval(<<'.,.,', 'parser.y', 58)
+  def _reduce_24(val, _values, result)
+     result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'+')
+    result
+  end
+.,.,
 
-# reduce 25 omitted
+module_eval(<<'.,.,', 'parser.y', 59)
+  def _reduce_25(val, _values, result)
+     result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'-')
+    result
+  end
+.,.,
 
-# reduce 26 omitted
+module_eval(<<'.,.,', 'parser.y', 60)
+  def _reduce_26(val, _values, result)
+     result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'*')
+    result
+  end
+.,.,
 
-# reduce 27 omitted
+module_eval(<<'.,.,', 'parser.y', 61)
+  def _reduce_27(val, _values, result)
+     result = Atoms::Scalar.new(:left => val[0], :right => val[2], :operation => :'/')
+    result
+  end
+.,.,
 
-# reduce 28 omitted
+module_eval(<<'.,.,', 'parser.y', 62)
+  def _reduce_28(val, _values, result)
+     result = Atoms::UnaryScalar.new(:value => val[1], :operation => :'+')
+    result
+  end
+.,.,
 
-# reduce 29 omitted
+module_eval(<<'.,.,', 'parser.y', 63)
+  def _reduce_29(val, _values, result)
+     result = Atoms::UnaryScalar.new(:value => val[1], :operation => :'-')
+    result
+  end
+.,.,
 
 # reduce 30 omitted
 

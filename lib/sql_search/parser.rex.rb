@@ -114,6 +114,18 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/\,/i))
          action { [:COMMA, text] }
 
+      when (text = @ss.scan(/\+/i))
+         action { [:ADD, text] }
+
+      when (text = @ss.scan(/\-/i))
+         action { [:SUBTRACT, text] }
+
+      when (text = @ss.scan(/\//i))
+         action { [:DIVIDE, text] }
+
+      when (text = @ss.scan(/\*/i))
+         action { [:MULTIPLY, text] }
+
       else
         text = @ss.string[@ss.pos .. -1]
         raise  ScanError, "can not match: '" + text + "'"

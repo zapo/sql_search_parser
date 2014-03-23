@@ -42,6 +42,36 @@ module SQLSearch
 
       assert_equal 1.1,
         SQLSearch::Parser.new.parse("b = 1.1").right.value
+
+      scalar_add = SQLSearch::Parser.new.parse("b = 1 + 1").right
+      assert_equal "1 + 1", scalar_add.to_s
+      assert_equal 1, scalar_add.left.value
+      assert_equal 1, scalar_add.right.value
+      assert_equal :'+', scalar_add.operation
+
+      scalar_add = SQLSearch::Parser.new.parse("b = 1 + 1").right
+      assert_equal "1 + 1", scalar_add.to_s
+      assert_equal 1, scalar_add.left.value
+      assert_equal 1, scalar_add.right.value
+      assert_equal :'+', scalar_add.operation
+
+      scalar_subtract = SQLSearch::Parser.new.parse("b = 1 - 1").right
+      assert_equal "1 - 1", scalar_subtract.to_s
+      assert_equal 1, scalar_subtract.left.value
+      assert_equal 1, scalar_subtract.right.value
+      assert_equal :'-', scalar_subtract.operation
+
+      scalar_multiply = SQLSearch::Parser.new.parse("b = 1 * 1.1").right
+      assert_equal "1 * 1.1", scalar_multiply.to_s
+      assert_equal 1, scalar_multiply.left.value
+      assert_equal 1.1, scalar_multiply.right.value
+      assert_equal :'*', scalar_multiply.operation
+
+      scalar_divide = SQLSearch::Parser.new.parse("b = 1.1 / 1").right
+      assert_equal "1.1 / 1", scalar_divide.to_s
+      assert_equal 1.1, scalar_divide.left.value
+      assert_equal 1, scalar_divide.right.value
+      assert_equal :'/', scalar_divide.operation
     end
 
     def test_conditions
