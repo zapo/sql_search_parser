@@ -34,7 +34,7 @@ module SQLSearch
       end
 
       def to_s
-        "NOT(#{value})"
+        "NOT (#{value})"
       end
     end
   end

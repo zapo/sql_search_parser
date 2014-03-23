@@ -3,13 +3,24 @@ class SQLSearch::Parser
 rule
   /* search conditions */
 
-  search_condition:
-    search_condition OR search_condition { result = Conditions::Or.new(:left => val[0], :right => val[2]) }
-    |search_condition AND search_condition { result = Conditions::And.new(:left => val[0], :right => val[2]) }
-    |NOT search_condition { result = Conditions::Not.new(:value => val[1]) }
-    |LPAREN search_condition RPAREN
-    |predicate
-    ;
+  search_condition
+    : boolean_term
+    | search_condition OR boolean_term { result = Conditions::Or.new(:left => val[0], :right => val[2]) }
+
+  boolean_term
+    : boolean_factor
+    | boolean_term AND boolean_factor { result = Conditions::And.new(:left => val[0], :right => val[2]) }
+
+  boolean_factor:
+    : NOT boolean_test { result = Conditions::Not.new(:value => val[1]) }
+    | boolean_test
+
+  boolean_test
+    : boolean_primary
+
+  boolean_primary
+    : predicate
+    | LPAREN search_condition RPAREN { result = val[1] }
 
   predicate:
     comparison_predicate

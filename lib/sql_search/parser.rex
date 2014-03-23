@@ -12,14 +12,6 @@ macro
 
   NAME [A-z_]([A-z0-9_]*)
 
-  IS is
-  NOT not
-  NULLX null
-  IN in
-  OR or
-  AND and
-  BETWEEN between
-
   YEARS   \d+
   MONTHS  \d{2}
   DAYS    \d{2}
