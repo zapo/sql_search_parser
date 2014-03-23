@@ -25,6 +25,14 @@ Usage
 
 For more examples look at the tests :)
 
+Installation
+------------
+    gem install sql_search_parser
+
+or add in your Gemfile
+
+    gem 'sql_search_parser'
+
 Build Dependencies
 ------------------
 rake, rexical, racc
