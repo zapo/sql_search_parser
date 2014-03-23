@@ -87,6 +87,8 @@ module SQLSearch
         SQLSearch.parse("not (b = 3)").to_s
       assert_equal "NOT ((`b` = 3) AND (`c` <> 2))",
         SQLSearch.parse("not((b = 3) and (c <> 2))").to_s
+      assert_equal "(`id` IN (1, 2, 3)) AND ((`state` = 'archived') OR (`created_at` > '2014-01-01T00:00:00+00:00'))",
+        SQLSearch.parse("id in (1,2,3) and (state = 'archived' or created_at > '2014-01-01T00:00:00Z' )").to_s
     end
   end
 end
