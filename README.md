@@ -36,5 +36,7 @@ Build & install Gem locally
 Run the tests
 -----
     rake
+
 or
+
     rake test
