@@ -88,7 +88,7 @@ module SQLSearch
       end
 
       def to_s
-        "#{operation} #{value}"
+        "#{operation}#{value}"
       end
     end
 

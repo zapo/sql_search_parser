@@ -72,6 +72,10 @@ module SQLSearch
       assert_equal 1.1, scalar_divide.left.value
       assert_equal 1, scalar_divide.right.value
       assert_equal :'/', scalar_divide.operation
+
+      abs_unary_scalar = SQLSearch::Parser.new.parse("b = +c")
+      assert_equal :'+', abs_unary_scalar.right.operation
+      assert_equal "`b` = +`c`", abs_unary_scalar.to_s
     end
 
     def test_conditions
