@@ -1,4 +1,9 @@
 module SQLSearch
+
+  def self.parse input
+    SQLSearch::Parser.new.parse(input)
+  end
+
   module Conditions
     class And
       attr_reader :left, :right
