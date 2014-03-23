@@ -22,3 +22,14 @@ Usage
 
     SQLSearch::Parser.new.parse("b + 1 > c").left
     => #<SQLSearch::Atoms::Scalar:0x000000016ceef8 @left=#<SQLSearch::Atoms::Column:0x000000016cf308 @name="b", @table=nil, @space=nil>, @right=#<SQLSearch::Atoms::Literal:0x000000016cf100 @value=1, @type=:int>, @operation=:+>
+
+For more examples look at the tests :)
+
+Build Dependencies
+------------------
+rake, rexical, racc
+
+Build & install Gem locally
+-----
+    rake package
+
