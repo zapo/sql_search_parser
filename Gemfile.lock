@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sql_search_parser (0.0.3)
+    sql_search_parser (0.0.4)
 
 GEM
   remote: http://rubygems.org/
