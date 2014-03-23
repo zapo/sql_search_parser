@@ -16,3 +16,6 @@ Usage
 
     SQLSearch::Parser.new.parse("b = '2013-01-01T00:00:00-05:00'").right.value
     => #<DateTime: 2013-01-01T00:00:00-05:00 ((2456294j,18000s,0n),-18000s,2299161j)>
+
+    SQLSearch::Parser.new.parse("b IN(1,2,3)").right.values.map(&:value)
+    => [1, 2, 3]
