@@ -5,7 +5,8 @@ module SQLSearch
   end
 
   module Conditions
-    class And
+    class Base ;end
+    class And < Base
       attr_reader :left, :right
       def initialize options
         @left = options[:left]; @right = options[:right]
@@ -16,7 +17,7 @@ module SQLSearch
       end
     end
 
-    class Or
+    class Or < Base
       attr_reader :left, :right
       def initialize options
         @left = options[:left]; @right = options[:right]
@@ -27,7 +28,7 @@ module SQLSearch
       end
     end
 
-    class Not
+    class Not < Base
       attr_reader :value
       def initialize options
         @value = options[:value]
@@ -39,29 +40,32 @@ module SQLSearch
     end
   end
 
-  class Comparison
-    attr_reader :left, :right, :operator
+  module Comparisons
+    class Base
+      attr_reader :left, :right, :operator
 
-    def initialize options
-      @left = options[:left]
-      @right = options[:right]
-      @operator = options[:operator]
+      def initialize options
+        @left = options[:left]
+        @right = options[:right]
+        @operator = options[:operator]
+      end
+
+      def to_s
+        "#{left} #{operator} #{right}"
+      end
     end
 
-    def to_s
-      "#{left} #{operator} #{right}"
-    end
-  end
-
-  class In < Comparison
-    def initialize options
-      super options
-      @operator = :IN
+    class In < Base
+      def initialize options
+        super options
+        @operator = :IN
+      end
     end
   end
 
   module Atoms
-    class InValues
+    class Base; end
+    class InValues < Base
       attr_reader :values
       def initialize options
         @values = options[:values]
@@ -72,7 +76,7 @@ module SQLSearch
       end
     end
 
-    class Scalar
+    class Scalar < Base
       attr_reader :left, :right, :operation
       def initialize options
         @left = options[:left]
@@ -97,7 +101,7 @@ module SQLSearch
       end
     end
 
-    class Literal
+    class Literal < Base
       attr_reader :value, :type
       def initialize options
         @value = options[:value]
@@ -112,7 +116,7 @@ module SQLSearch
       end
     end
 
-    class Column
+    class Column < Base
       attr_reader :name, :table, :space
 
       def initialize options

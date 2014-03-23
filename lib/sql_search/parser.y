@@ -31,7 +31,7 @@ rule
     ;
 
   comparison_predicate:
-    scalar_exp COMPARISON scalar_exp { result = Comparison.new(:left => val[0], :right => val[2], :operator => val[1].to_sym) }
+    scalar_exp COMPARISON scalar_exp { result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => val[1].to_sym) }
     ;
 
   between_predicate:
@@ -40,8 +40,8 @@ rule
     ;
 
   like_predicate:
-    scalar_exp NOT LIKE atom opt_escape { result = Conditions::Not.new(:value => Comparison.new(:left => val[0], :right => val[3], :operator => :LIKE)) }
-    |scalar_exp LIKE atom opt_escape { result = Comparison.new(:left => val[0], :right => val[2], :operator => :LIKE) }
+    scalar_exp NOT LIKE atom opt_escape { result = Conditions::Not.new(:value => Comparisons::Base.new(:left => val[0], :right => val[3], :operator => :LIKE)) }
+    |scalar_exp LIKE atom opt_escape { result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => :LIKE) }
     ;
 
   opt_escape:
@@ -50,13 +50,13 @@ rule
     ;
 
   test_for_null:
-    column_ref IS NOT NULL { result = Comparison.new(:left => val[0], :right => val[3], :operator => :'<>') }
-    |column_ref IS NULL { result = Comparison.new(:left => val[0], :right => val[2], :operator => :'=') }
+    column_ref IS NOT NULL { result = Comparisons::Base.new(:left => val[0], :right => val[3], :operator => :'<>') }
+    |column_ref IS NULL { result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => :'=') }
     ;
 
   in_predicate:
-    scalar_exp NOT IN LPAREN atom_commalist RPAREN { result = Conditions::Not.new(:value => In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[4]))) }
-    |scalar_exp IN LPAREN atom_commalist RPAREN { result = In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[3])) }
+    scalar_exp NOT IN LPAREN atom_commalist RPAREN { result = Conditions::Not.new(:value => Comparisons::In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[4]))) }
+    |scalar_exp IN LPAREN atom_commalist RPAREN { result = Comparisons::In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[3])) }
     ;
 
   atom_commalist:

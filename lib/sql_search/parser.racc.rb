@@ -330,7 +330,7 @@ module_eval(<<'.,.,', 'parser.y', 22)
 
 module_eval(<<'.,.,', 'parser.y', 33)
   def _reduce_15(val, _values, result)
-     result = Comparison.new(:left => val[0], :right => val[2], :operator => val[1].to_sym) 
+     result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => val[1].to_sym) 
     result
   end
 .,.,
@@ -341,14 +341,14 @@ module_eval(<<'.,.,', 'parser.y', 33)
 
 module_eval(<<'.,.,', 'parser.y', 42)
   def _reduce_18(val, _values, result)
-     result = Conditions::Not.new(:value => Comparison.new(:left => val[0], :right => val[3], :operator => :LIKE)) 
+     result = Conditions::Not.new(:value => Comparisons::Base.new(:left => val[0], :right => val[3], :operator => :LIKE)) 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'parser.y', 43)
   def _reduce_19(val, _values, result)
-     result = Comparison.new(:left => val[0], :right => val[2], :operator => :LIKE) 
+     result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => :LIKE) 
     result
   end
 .,.,
@@ -359,28 +359,28 @@ module_eval(<<'.,.,', 'parser.y', 43)
 
 module_eval(<<'.,.,', 'parser.y', 52)
   def _reduce_22(val, _values, result)
-     result = Comparison.new(:left => val[0], :right => val[3], :operator => :'<>') 
+     result = Comparisons::Base.new(:left => val[0], :right => val[3], :operator => :'<>') 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'parser.y', 53)
   def _reduce_23(val, _values, result)
-     result = Comparison.new(:left => val[0], :right => val[2], :operator => :'=') 
+     result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => :'=') 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'parser.y', 57)
   def _reduce_24(val, _values, result)
-     result = Conditions::Not.new(:value => In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[4]))) 
+     result = Conditions::Not.new(:value => Comparisons::In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[4]))) 
     result
   end
 .,.,
 
 module_eval(<<'.,.,', 'parser.y', 58)
   def _reduce_25(val, _values, result)
-     result = In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[3])) 
+     result = Comparisons::In.new(:left => val[0], :right => Atoms::InValues.new(:values => val[3])) 
     result
   end
 .,.,
