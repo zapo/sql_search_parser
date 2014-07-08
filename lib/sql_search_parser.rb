@@ -117,16 +117,15 @@ module SQLSearch
     end
 
     class Column < Base
-      attr_reader :name, :table, :space
+      attr_reader :name, :space
 
       def initialize options
         @name = options[:name]
-        @table = options[:table]
         @space = options[:space]
       end
 
       def to_s
-        [space,table,name].compact.map { |a| "`#{a}`" }.join('.')
+        [space,name].compact.map { |a| "`#{a}`" }.join('.')
       end
     end
   end
