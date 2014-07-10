@@ -110,8 +110,12 @@ module SQLSearch
 
       def to_s
         case type
-        when :string, :datetime then "'#{value}'"
-        else "#{value}"
+        when :string, :datetime
+          "'#{value}'"
+        when :boolean
+          value == true ? 'TRUE' : 'FALSE'
+        else
+          "#{value}"
         end
       end
     end

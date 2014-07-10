@@ -4,6 +4,10 @@ module SQLSearch
   class ParserTest < Minitest::Test
 
     def test_comparisons
+      assert_equal "`b` = TRUE",
+        SQLSearch.parse("b = t").to_s
+      assert_equal "`b` = FALSE",
+        SQLSearch.parse("b = false").to_s
       assert_equal "`b` = 3",
         SQLSearch.parse("b = 3").to_s
       assert_equal "`b` <> 3",
@@ -36,6 +40,16 @@ module SQLSearch
 
       assert_equal 'blah',
         SQLSearch.parse("b = 'blah'").right.value
+
+      ['t', 'true'].each do |truth|
+        assert_equal true,
+          SQLSearch.parse("b = #{truth}").right.value
+      end
+
+      ['f', 'false'].each do |falseness|
+        assert_equal false,
+          SQLSearch.parse("b = #{falseness}").right.value
+      end
 
       assert_equal 1,
         SQLSearch.parse("b = 1").right.value

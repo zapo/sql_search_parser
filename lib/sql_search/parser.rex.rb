@@ -60,6 +60,9 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/[ \t]+/i))
         ;
 
+      when (text = @ss.scan(/(true|t|false|f)/i))
+         action { [:BOOL, ['true', 't'].include?(text.to_s) ? true : false] }
+
       when (text = @ss.scan(/\d+\.\d+/i))
          action { [:APPROXNUM, text.to_f] }
 
