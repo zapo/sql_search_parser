@@ -4,14 +4,16 @@ option
   ignorecase
 
 macro
-  BOOL ^(true|t|false|f)$
+  BOOL (true|t|false|f)
   BLANK  [\ \t]+
   STRING [^']+
   APPROXNUM {INTNUM}\.{INTNUM}
   INTNUM \d+
   COMPARISON (<>|=|[<][=]|[<]|[>][=]|[>])
 
-  NAME [A-z_]([A-z0-9_]*)
+  RESERVED ({BOOL})
+
+  NAME ^(?!{RESERVED})[A-z_]([A-z0-9_]*)
 
   YEARS   \d+
   MONTHS  \d{2}
