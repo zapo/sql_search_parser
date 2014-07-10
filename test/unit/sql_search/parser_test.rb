@@ -8,8 +8,10 @@ module SQLSearch
         SQLSearch.parse("b = true").to_s
       assert_equal "`b` = FALSE",
         SQLSearch.parse("b = false").to_s
-      assert_equal "`name`.`col` = FALSE",
-        SQLSearch.parse("name.col = false").to_s
+      assert_equal "(`name`.`col1` = FALSE) AND (`name`.`col2` = TRUE)",
+        SQLSearch.parse("name.col1 = false and name.col2 = true").to_s
+      assert_equal "`name`.`fa` = TRUE",
+        SQLSearch.parse("name.fa = true").to_s
       assert_equal "`b` = 3",
         SQLSearch.parse("b = 3").to_s
       assert_equal "`b` <> 3",

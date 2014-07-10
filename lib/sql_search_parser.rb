@@ -4,6 +4,10 @@ module SQLSearch
     SQLSearch::Parser.new.parse(input)
   end
 
+  def self.tokenize input
+    SQLSearch::Parser.new.tokenize(input)
+  end
+
   module Conditions
     class Base ;end
     class And < Base

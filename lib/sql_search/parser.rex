@@ -9,11 +9,9 @@ macro
   STRING [^']+
   APPROXNUM {INTNUM}\.{INTNUM}
   INTNUM \d+
-  COMPARISON (<>|=|[<][=]|[<]|[>][=]|[>])
+  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>])
 
-  RESERVED ({BOOL})
-
-  NAME ^(?!{RESERVED})[A-z_]([A-z0-9_]*)
+  NAME [A-z_]([A-z0-9_]*)
 
   YEARS   \d+
   MONTHS  \d{2}
@@ -39,8 +37,15 @@ rule
   BETWEEN { [:BETWEEN, text] }
   LIKE { [:LIKE, text] }
   {COMPARISON} { [:COMPARISON, text] }
-  {BOOL} { [:BOOL, ['true', 't'].include?(text.to_s) ? true : false] }
-  {NAME} { [:NAME, text] }
+  {NAME} {
+    if ['true', 't'].include?(text)
+      [:BOOL, true]
+    elsif ['false', 'f'].include?(text)
+      [:BOOL, false]
+    else
+      [:NAME, text]
+    end
+  }
   \( { [:LPAREN, text] }
   \) { [:RPAREN, text] }
   \. { [:DOT, text] }

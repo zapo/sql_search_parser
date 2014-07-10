@@ -96,14 +96,20 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/LIKE/i))
          action { [:LIKE, text] }
 
-      when (text = @ss.scan(/(<>|=|[<][=]|[<]|[>][=]|[>])/i))
+      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>])/i))
          action { [:COMPARISON, text] }
 
-      when (text = @ss.scan(/(true|t|false|f)/i))
-         action { [:BOOL, ['true', 't'].include?(text.to_s) ? true : false] }
+      when (text = @ss.scan(/[A-z_]([A-z0-9_]*)/i))
+         action {
+    if ['true', 't'].include?(text)
+      [:BOOL, true]
+    elsif ['false', 'f'].include?(text)
+      [:BOOL, false]
+    else
+      [:NAME, text]
+    end
+  }
 
-      when (text = @ss.scan(/^(?!((true|t|false|f)))[A-z_]([A-z0-9_]*)/i))
-         action { [:NAME, text] }
 
       when (text = @ss.scan(/\(/i))
          action { [:LPAREN, text] }
