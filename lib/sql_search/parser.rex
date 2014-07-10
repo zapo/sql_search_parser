@@ -4,7 +4,7 @@ option
   ignorecase
 
 macro
-  BOOL (true|t|false|f)
+  BOOL ^(true|t|false|f)$
   BLANK  [\ \t]+
   STRING [^']+
   APPROXNUM {INTNUM}\.{INTNUM}
@@ -24,7 +24,6 @@ macro
 
 rule
   {BLANK}
-  {BOOL} { [:BOOL, ['true', 't'].include?(text.to_s) ? true : false] }
   {APPROXNUM} { [:APPROXNUM, text.to_f] }
   {INTNUM} { [:INTNUM, text.to_i] }
   '{TIME}' { [:TIME, DateTime.iso8601(text[1...-1])] }
@@ -38,6 +37,7 @@ rule
   BETWEEN { [:BETWEEN, text] }
   LIKE { [:LIKE, text] }
   {COMPARISON} { [:COMPARISON, text] }
+  {BOOL} { [:BOOL, ['true', 't'].include?(text.to_s) ? true : false] }
   {NAME} { [:NAME, text] }
   \( { [:LPAREN, text] }
   \) { [:RPAREN, text] }

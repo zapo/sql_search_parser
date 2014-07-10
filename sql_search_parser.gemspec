@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/zapo/sql_search_parser'
   s.license     = 'MIT'
 
-  s.add_development_dependency "minitest"
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rexical"
-  s.add_development_dependency "racc"
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rexical'
+  s.add_development_dependency 'racc'
 end

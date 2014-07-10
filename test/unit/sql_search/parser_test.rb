@@ -5,9 +5,11 @@ module SQLSearch
 
     def test_comparisons
       assert_equal "`b` = TRUE",
-        SQLSearch.parse("b = t").to_s
+        SQLSearch.parse("b = true").to_s
       assert_equal "`b` = FALSE",
         SQLSearch.parse("b = false").to_s
+      assert_equal "`name`.`col` = FALSE",
+        SQLSearch.parse("name.col = false").to_s
       assert_equal "`b` = 3",
         SQLSearch.parse("b = 3").to_s
       assert_equal "`b` <> 3",
