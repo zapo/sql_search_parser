@@ -1,4 +1,6 @@
-require_relative 'lib/sql_search/version'
+$:.push File.expand_path("../lib", __FILE__)
+
+require 'lib/sql_search/version'
 require 'date'
 
 Gem::Specification.new do |s|
