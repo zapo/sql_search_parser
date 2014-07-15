@@ -26,7 +26,6 @@ rule
     comparison_predicate
     |between_predicate
     |like_predicate
-    |test_for_null
     |in_predicate
     ;
 
@@ -47,11 +46,6 @@ rule
   opt_escape:
     /* empty */
     |ESCAPE atom
-    ;
-
-  test_for_null:
-    column_ref IS NOT NULL { result = Comparisons::Base.new(:left => val[0], :right => val[3], :operator => :'<>') }
-    |column_ref IS NULL { result = Comparisons::Base.new(:left => val[0], :right => val[2], :operator => :'=') }
     ;
 
   in_predicate:
@@ -84,6 +78,7 @@ rule
 
   literal:
     BOOL { result = Atoms::Literal.new(:value => val[0], :type => :boolean) }
+    |NULL { result = Atoms::Literal.new(:value => nil, :type => :null) }
     |STRING { result = Atoms::Literal.new(:value => val[0], :type => :string) }
     |APPROXNUM { result = Atoms::Literal.new(:value => val[0], :type => :float) }
     |INTNUM { result = Atoms::Literal.new(:value => val[0], :type => :int) }

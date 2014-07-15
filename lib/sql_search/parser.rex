@@ -5,6 +5,7 @@ option
 
 macro
   BOOL (true|t|false|f)
+  NULL null
   BLANK  [\ \t]+
   STRING [^']+
   APPROXNUM {INTNUM}\.{INTNUM}
@@ -37,11 +38,14 @@ rule
   BETWEEN { [:BETWEEN, text] }
   LIKE { [:LIKE, text] }
   {COMPARISON} { [:COMPARISON, text] }
+  {NULL} { [:NULL, nil] }
   {NAME} {
     if ['true', 't'].include?(text)
       [:BOOL, true]
     elsif ['false', 'f'].include?(text)
       [:BOOL, false]
+    elsif text == 'null'
+      [:NULL, nil]
     else
       [:NAME, text]
     end

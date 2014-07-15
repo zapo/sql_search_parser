@@ -99,12 +99,17 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>])/i))
          action { [:COMPARISON, text] }
 
+      when (text = @ss.scan(/null/i))
+         action { [:NULL, nil] }
+
       when (text = @ss.scan(/[A-z_]([A-z0-9_]*)/i))
          action {
     if ['true', 't'].include?(text)
       [:BOOL, true]
     elsif ['false', 'f'].include?(text)
       [:BOOL, false]
+    elsif text == 'null'
+      [:NULL, nil]
     else
       [:NAME, text]
     end

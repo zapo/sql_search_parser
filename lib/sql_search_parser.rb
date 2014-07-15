@@ -118,6 +118,8 @@ module SQLSearch
           "'#{value}'"
         when :boolean
           value == true ? 'TRUE' : 'FALSE'
+        when :null
+          "NULL"
         else
           "#{value}"
         end

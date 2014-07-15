@@ -25,9 +25,9 @@ module SQLSearch
       assert_equal "`b` >= 3",
         SQLSearch.parse("b >= 3").to_s
       assert_equal "`b` = NULL",
-        SQLSearch.parse("b is null").to_s
+        SQLSearch.parse("b = null").to_s
       assert_equal "`b` <> NULL",
-        SQLSearch.parse("b is not null").to_s
+        SQLSearch.parse("b <> null").to_s
       assert_equal "`b` LIKE '%3%'",
         SQLSearch.parse("b like '%3%'").to_s
       assert_equal "NOT (`b` LIKE '%3%')",
@@ -39,6 +39,10 @@ module SQLSearch
     end
 
     def test_atom_parse
+
+      assert_equal nil,
+        SQLSearch.parse("b = null").right.value
+
       assert_equal Date.iso8601('2013-01-01T00:00:00Z'),
         SQLSearch.parse("b = '2013-01-01T00:00:00Z'").right.value
 
