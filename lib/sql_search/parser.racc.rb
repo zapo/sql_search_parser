@@ -485,7 +485,7 @@ module_eval(<<'.,.,', 'parser.y', 88)
 
 module_eval(<<'.,.,', 'parser.y', 89)
   def _reduce_42(val, _values, result)
-     result = Atoms::Column.new(:name => val[2], :space => val[0].name) 
+     result = Atoms::Column.new(:name => val[2], :space => val[0]) 
     result
   end
 .,.,

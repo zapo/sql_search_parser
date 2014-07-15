@@ -87,7 +87,7 @@ rule
 
   column_ref:
     NAME { result = Atoms::Column.new(:name => val[0]) }
-    |column_ref DOT NAME { result = Atoms::Column.new(:name => val[2], :space => val[0].name) }
+    |column_ref DOT NAME { result = Atoms::Column.new(:name => val[2], :space => val[0]) }
     ;
 
 end

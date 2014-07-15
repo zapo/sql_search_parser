@@ -39,6 +39,7 @@ module SQLSearch
     end
 
     def test_atom_parse
+      assert_equal ['a', 'b', 'c'], SQLSearch.parse("a.b.c = null").left.to_a
 
       assert_equal nil,
         SQLSearch.parse("b = null").right.value

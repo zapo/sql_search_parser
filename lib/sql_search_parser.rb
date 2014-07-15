@@ -135,7 +135,11 @@ module SQLSearch
       end
 
       def to_s
-        [space,name].compact.map { |a| "`#{a}`" }.join('.')
+        [space, "`#{name}`"].compact.join('.')
+      end
+
+      def to_a
+        (space || []).to_a << name
       end
     end
   end
