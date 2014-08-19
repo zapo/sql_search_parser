@@ -7,10 +7,10 @@ macro
   BOOL (true|t|false|f)
   NULL null
   BLANK  [\ \t]+
-  STRING [^']+
+  STRING [^']*
   APPROXNUM {INTNUM}\.{INTNUM}
   INTNUM \d+
-  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>])
+  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=])
 
   NAME [A-z_]([A-z0-9_]*)
 

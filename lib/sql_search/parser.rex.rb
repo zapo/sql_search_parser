@@ -69,7 +69,7 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/'\d+-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)'/i))
          action { [:TIME, DateTime.iso8601(text[1...-1])] }
 
-      when (text = @ss.scan(/'[^']+'/i))
+      when (text = @ss.scan(/'[^']*'/i))
          action { [:STRING, text[1...-1]] }
 
       when (text = @ss.scan(/IS/i))
@@ -96,7 +96,7 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/LIKE/i))
          action { [:LIKE, text] }
 
-      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>])/i))
+      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=])/i))
          action { [:COMPARISON, text] }
 
       when (text = @ss.scan(/null/i))
