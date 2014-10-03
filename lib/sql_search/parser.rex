@@ -7,7 +7,7 @@ macro
   BOOL (true|t|false|f)
   NULL null
   BLANK  [\ \t]+
-  STRING [^']*
+  STRING (["'])(?:(?!\1)[^\\]|\\.)*\1
   APPROXNUM {INTNUM}\.{INTNUM}
   INTNUM \d+
   COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=])
@@ -21,14 +21,14 @@ macro
   MINUTES \d{2}
   SECONDS \d{2}
   UTC_OFFSET  ([+-]{HOURS}:{MINUTES}|Z)
-  TIME    {YEARS}-{MONTHS}-{DAYS}T{HOURS}:{MINUTES}:{SECONDS}{UTC_OFFSET}
+  TIME    [']{YEARS}-{MONTHS}-{DAYS}T{HOURS}:{MINUTES}:{SECONDS}{UTC_OFFSET}[']
 
 rule
   {BLANK}
   {APPROXNUM} { [:APPROXNUM, text.to_f] }
   {INTNUM} { [:INTNUM, text.to_i] }
-  '{TIME}' { [:TIME, DateTime.iso8601(text[1...-1])] }
-  '{STRING}' { [:STRING, text[1...-1]] }
+  {TIME} { [:TIME, DateTime.iso8601(text[1...-1])] }
+  {STRING} { [:STRING, text[1...-1]] }
   IS { [:IS, text] }
   NOT { [:NOT, text] }
   NULL { [:NULL, text.upcase] }
