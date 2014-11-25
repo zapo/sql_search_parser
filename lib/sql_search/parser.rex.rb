@@ -72,12 +72,6 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/(["'])(?:(?!\1)[^\\]|\\.)*\1/i))
          action { [:STRING, text[1...-1]] }
 
-      when (text = @ss.scan(/IS/i))
-         action { [:IS, text] }
-
-      when (text = @ss.scan(/NOT/i))
-         action { [:NOT, text] }
-
       when (text = @ss.scan(/NULL/i))
          action { [:NULL, text.upcase] }
 
@@ -96,8 +90,11 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/LIKE/i))
          action { [:LIKE, text] }
 
-      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=])/i))
+      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=]|is not|is)/i))
          action { [:COMPARISON, text] }
+
+      when (text = @ss.scan(/NOT/i))
+         action { [:NOT, text] }
 
       when (text = @ss.scan(/null/i))
          action { [:NULL, nil] }

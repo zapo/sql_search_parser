@@ -51,7 +51,7 @@ module SQLSearch
       def initialize options
         @left = options[:left]
         @right = options[:right]
-        @operator = options[:operator]
+        @operator = options[:operator].to_s.upcase.to_sym
       end
 
       def to_s

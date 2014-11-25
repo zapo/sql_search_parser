@@ -4,6 +4,10 @@ module SQLSearch
   class ParserTest < Minitest::Test
 
     def test_comparisons
+      assert_equal "`b` IS NULL",
+        SQLSearch.parse("b is null").to_s
+      assert_equal "`b` IS NOT NULL",
+        SQLSearch.parse("b is not null").to_s
       assert_equal "`b` = TRUE",
         SQLSearch.parse("b = true").to_s
       assert_equal "`b` = ''",

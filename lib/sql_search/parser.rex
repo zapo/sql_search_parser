@@ -10,7 +10,9 @@ macro
   STRING (["'])(?:(?!\1)[^\\]|\\.)*\1
   APPROXNUM {INTNUM}\.{INTNUM}
   INTNUM \d+
-  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=])
+  IS is
+  NOT not
+  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=]|{IS}\ {NOT}|{IS})
 
   NAME [A-z_]([A-z0-9_]*)
 
@@ -29,8 +31,6 @@ rule
   {INTNUM} { [:INTNUM, text.to_i] }
   {TIME} { [:TIME, DateTime.iso8601(text[1...-1])] }
   {STRING} { [:STRING, text[1...-1]] }
-  IS { [:IS, text] }
-  NOT { [:NOT, text] }
   NULL { [:NULL, text.upcase] }
   IN { [:IN, text] }
   OR { [:OR, text] }
@@ -38,6 +38,7 @@ rule
   BETWEEN { [:BETWEEN, text] }
   LIKE { [:LIKE, text] }
   {COMPARISON} { [:COMPARISON, text] }
+  NOT { [:NOT, text] }
   {NULL} { [:NULL, nil] }
   {NAME} {
     if ['true', 't'].include?(text)
