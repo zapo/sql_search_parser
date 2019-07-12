@@ -3,6 +3,75 @@ require_relative '../../test_helper'
 module SQLSearch
   class ParserTest < Minitest::Test
 
+    def test_tokenizations
+      {
+        '' => [],
+        ' ' => [],
+        '  ' => [],
+        '01.230' => [[:APPROXNUM, 1.23]],
+        '01' => [[:INTNUM, 1]],
+        "'2019-01-01T01:01:01-05:00'" => [[:TIME, DateTime.iso8601('2019-01-01T01:01:01-05:00')]],
+        '"2019-01-01T01:01:01-05:00"' => [[:TIME, DateTime.iso8601('2019-01-01T01:01:01-05:00')]],
+        "'test'" => [[:STRING, 'test']],
+        '"test"' => [[:STRING, 'test']],
+        '"with \"escaped\" quotes"' => [[:STRING, "with \\\"escaped\\\" quotes"]],
+        "'2019-test'" => [[:STRING, '2019-test']],
+        'in' => [[:IN, 'in']],
+        'in_' => [[:NAME, 'in_']],
+        'ini' => [[:NAME, 'ini']],
+        'or' => [[:OR, 'or']],
+        'or_' => [[:NAME, 'or_']],
+        'oro' => [[:NAME, 'oro']],
+        'and' => [[:AND, 'and']],
+        'and_' => [[:NAME, 'and_']],
+        'ando' => [[:NAME, 'ando']],
+        'between' => [[:BETWEEN, 'between']],
+        'between_' => [[:NAME, 'between_']],
+        'betweeno' => [[:NAME, 'betweeno']],
+        'like' => [[:LIKE, 'like']],
+        'like_' => [[:NAME, 'like_']],
+        'likeo' => [[:NAME, 'likeo']],
+        '=' => [[:COMPARISON, '=']],
+        '<=' => [[:COMPARISON, '<=']],
+        '>=' => [[:COMPARISON, '>=']],
+        '!=' => [[:COMPARISON, '!=']],
+        '==' => [[:COMPARISON, '='], [:COMPARISON, '=']],
+        'is' => [[:COMPARISON, 'is']],
+        'is_' => [[:NAME, 'is_']],
+        'isi' => [[:NAME, 'isi']],
+        'is nothing' => [[:COMPARISON, 'is'], [:NAME, 'nothing']],
+        'is not' => [[:COMPARISON, 'is not']],
+        'not' => [[:NOT, 'not']],
+        'not_' => [[:NAME, 'not_']],
+        'noto' => [[:NAME, 'noto']],
+        'null' => [[:NULL, nil]],
+        'null_' => [[:NAME, 'null_']],
+        'nullo' => [[:NAME, 'nullo']],
+        'true' => [[:BOOL, true]],
+        't' => [[:BOOL, true]],
+        'false' => [[:BOOL, false]],
+        'f' => [[:BOOL, false]],
+        'a0b1' => [[:NAME, 'a0b1']],
+        'a____b___' => [[:NAME, 'a____b___']],
+        '__' => [[:NAME, '__']],
+        '(' => [[:LPAREN, '(']],
+        ')' => [[:RPAREN, ')']],
+        '.' => [[:DOT, '.']],
+        ',' => [[:COMMA, ',']],
+        '+' => [[:ADD, '+']],
+        '-' => [[:SUBTRACT, '-']],
+        '/' => [[:DIVIDE, '/']],
+        '*' => [[:MULTIPLY, '*']]
+      }.each do |str, expected_tokens|
+        assert_equal expected_tokens,
+          SQLSearch.tokenize(str)
+      end
+
+      assert_raises(SQLSearch::Parser::ScanError) {
+        SQLSearch.tokenize('0b')
+      }
+    end
+
     def test_comparisons
       assert_equal "`b` IS NULL",
         SQLSearch.parse("b is null").to_s
