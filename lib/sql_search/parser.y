@@ -100,4 +100,3 @@ end
   def parse(input)
     scan_str(input)
   end
-

@@ -60,58 +60,50 @@ class SQLSearch::Parser < Racc::Parser
       when (text = @ss.scan(/[ \t]+/i))
         ;
 
-      when (text = @ss.scan(/\d+\.\d+/i))
+      when (text = @ss.scan(/\b\d+\.\d+\b/i))
          action { [:APPROXNUM, text.to_f] }
 
-      when (text = @ss.scan(/\d+/i))
+      when (text = @ss.scan(/\b\d+\b/i))
          action { [:INTNUM, text.to_i] }
 
-      when (text = @ss.scan(/[']\d+-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)[']/i))
+      when (text = @ss.scan(/(["'])\d+-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)\1/i))
          action { [:TIME, DateTime.iso8601(text[1...-1])] }
 
       when (text = @ss.scan(/(["'])(?:(?!\1)[^\\]|\\.)*\1/i))
          action { [:STRING, text[1...-1]] }
 
-      when (text = @ss.scan(/NULL/i))
-         action { [:NULL, text.upcase] }
-
-      when (text = @ss.scan(/IN/i))
+      when (text = @ss.scan(/\bIN\b/i))
          action { [:IN, text] }
 
-      when (text = @ss.scan(/OR/i))
+      when (text = @ss.scan(/\bOR\b/i))
          action { [:OR, text] }
 
-      when (text = @ss.scan(/AND/i))
+      when (text = @ss.scan(/\bAND\b/i))
          action { [:AND, text] }
 
-      when (text = @ss.scan(/BETWEEN/i))
+      when (text = @ss.scan(/\bBETWEEN\b/i))
          action { [:BETWEEN, text] }
 
-      when (text = @ss.scan(/LIKE/i))
+      when (text = @ss.scan(/\bLIKE\b/i))
          action { [:LIKE, text] }
 
-      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=]|is not|is)/i))
+      when (text = @ss.scan(/([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=]|\bis[ \t]+not\b|\bis\b)/i))
          action { [:COMPARISON, text] }
 
-      when (text = @ss.scan(/NOT/i))
+      when (text = @ss.scan(/\bnot\b/i))
          action { [:NOT, text] }
 
-      when (text = @ss.scan(/null/i))
+      when (text = @ss.scan(/\bNULL\b/i))
          action { [:NULL, nil] }
 
-      when (text = @ss.scan(/[A-z_]([A-z0-9_]*)/i))
-         action {
-    if ['true', 't'].include?(text)
-      [:BOOL, true]
-    elsif ['false', 'f'].include?(text)
-      [:BOOL, false]
-    elsif text == 'null'
-      [:NULL, nil]
-    else
-      [:NAME, text]
-    end
-  }
+      when (text = @ss.scan(/\b(true|t)\b/i))
+         action { [:BOOL, true] }
 
+      when (text = @ss.scan(/\b(false|f)\b/i))
+         action { [:BOOL, false] }
+
+      when (text = @ss.scan(/\b[A-z_]([A-z0-9_]*)\b/i))
+         action { [:NAME, text] }
 
       when (text = @ss.scan(/\(/i))
          action { [:LPAREN, text] }

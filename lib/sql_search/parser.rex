@@ -4,15 +4,15 @@ option
   ignorecase
 
 macro
-  BOOL (true|t|false|f)
-  NULL null
-  BLANK  [\ \t]+
+  TRUE (true|t)
+  FALSE (false|f)
+  BLANK [\ \t]+
   STRING (["'])(?:(?!\1)[^\\]|\\.)*\1
   APPROXNUM {INTNUM}\.{INTNUM}
   INTNUM \d+
   IS is
   NOT not
-  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=]|{IS}\ {NOT}|{IS})
+  COMPARISON ([<][>]|[=]|[<][=]|[<]|[>][=]|[>]|[!][=]|\b{IS}{BLANK}{NOT}\b|\b{IS}\b)
 
   NAME [A-z_]([A-z0-9_]*)
 
@@ -23,34 +23,25 @@ macro
   MINUTES \d{2}
   SECONDS \d{2}
   UTC_OFFSET  ([+-]{HOURS}:{MINUTES}|Z)
-  TIME    [']{YEARS}-{MONTHS}-{DAYS}T{HOURS}:{MINUTES}:{SECONDS}{UTC_OFFSET}[']
+  TIME    (["']){YEARS}-{MONTHS}-{DAYS}T{HOURS}:{MINUTES}:{SECONDS}{UTC_OFFSET}\1
 
 rule
   {BLANK}
-  {APPROXNUM} { [:APPROXNUM, text.to_f] }
-  {INTNUM} { [:INTNUM, text.to_i] }
+  \b{APPROXNUM}\b { [:APPROXNUM, text.to_f] }
+  \b{INTNUM}\b { [:INTNUM, text.to_i] }
   {TIME} { [:TIME, DateTime.iso8601(text[1...-1])] }
   {STRING} { [:STRING, text[1...-1]] }
-  NULL { [:NULL, text.upcase] }
-  IN { [:IN, text] }
-  OR { [:OR, text] }
-  AND { [:AND, text] }
-  BETWEEN { [:BETWEEN, text] }
-  LIKE { [:LIKE, text] }
+  \bIN\b { [:IN, text] }
+  \bOR\b { [:OR, text] }
+  \bAND\b { [:AND, text] }
+  \bBETWEEN\b { [:BETWEEN, text] }
+  \bLIKE\b { [:LIKE, text] }
   {COMPARISON} { [:COMPARISON, text] }
-  NOT { [:NOT, text] }
-  {NULL} { [:NULL, nil] }
-  {NAME} {
-    if ['true', 't'].include?(text)
-      [:BOOL, true]
-    elsif ['false', 'f'].include?(text)
-      [:BOOL, false]
-    elsif text == 'null'
-      [:NULL, nil]
-    else
-      [:NAME, text]
-    end
-  }
+  \b{NOT}\b { [:NOT, text] }
+  \bNULL\b { [:NULL, nil] }
+  \b{TRUE}\b { [:BOOL, true] }
+  \b{FALSE}\b { [:BOOL, false] }
+  \b{NAME}\b { [:NAME, text] }
   \( { [:LPAREN, text] }
   \) { [:RPAREN, text] }
   \. { [:DOT, text] }
