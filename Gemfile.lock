@@ -9,7 +9,7 @@ GEM
     minitest (5.3.1)
     racc (1.4.11)
     rake (10.1.1)
-    rexical (1.0.5)
+    rexical (1.0.7)
 
 PLATFORMS
   ruby
